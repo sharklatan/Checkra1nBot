@@ -21,13 +21,16 @@ class App {
                 Status status = twitterActions
                         .search(Data.searchKeys.get(new Random().nextInt(Data.searchKeys.size())));
                 Status retweetedStatus = twitterActions.retweetStatus(status);
-                consoleLog(String.format("\n\nRetweeted:\n\n%s\n\nby @%s", retweetedStatus.getText(),
+                consoleLog(String.format("Retweeted:\n\n%s\n\nby @%s", retweetedStatus.getText(),
                         retweetedStatus.getUser().getScreenName()));
             } catch (TwitterException exception) {
-                consoleLog(exception.getMessage());
-            } finally {
-                sleep();
+                consoleLog(exception.toString());
+            } catch (IllegalArgumentException illegalArgException) {
+                consoleLog("Results did not contain desired results");
+                continue;
             }
+            consoleLog("Sleeping");
+            sleep();
         }
     }
 

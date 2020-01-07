@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Checkra1nBot:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Checkra1nBot_jar</output-path>
+    <root id="archive" name="Checkra1nBot.jar">
+      <element id="module-output" name="Checkra1nBot" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/twitter4j/twitter4j-core/4.0.7/twitter4j-core-4.0.7.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
