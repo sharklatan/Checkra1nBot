@@ -24,7 +24,7 @@ public class Actions {
      */
     public Status search(String searchKey) throws TwitterException {
         Twitter twitter = TwitterFactory.getSingleton();
-        Query query = new Query(searchKey).lang("en").count(50);
+        Query query = new Query(searchKey).lang("en").count(100);
         QueryResult result = twitter.search(query);
         List<Status> tweetList = result.getTweets();
 

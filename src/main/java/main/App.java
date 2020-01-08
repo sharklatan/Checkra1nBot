@@ -22,14 +22,23 @@ class App {
                         .search(Data.searchKeys.get(new Random().nextInt(Data.searchKeys.size())));
                 Status retweetedStatus = twitterActions.retweetStatus(status);
                 consoleLog(String.format("Retweeted:\n\n%s\n\nby @%s", retweetedStatus.getText(),
-                        retweetedStatus.getUser().getScreenName()));
+                        status.getUser().getScreenName()));
             } catch (TwitterException exception) {
-                consoleLog(exception.toString());
-            } catch (IllegalArgumentException illegalArgException) {
+                if (exception.getErrorCode() == 136) {
+                    consoleLog("Blocked from retweeting user's tweets");
+                    continue;
+                }
+                if (exception.getErrorCode() == 327) {
+                    consoleLog("Already retweeted");
+                    continue;
+                }
+                else {
+                    consoleLog(exception.toString());
+                }
+            } catch (IllegalArgumentException exception) {
                 consoleLog("Results did not contain desired results");
                 continue;
             }
-            consoleLog("Sleeping");
             sleep();
         }
     }
@@ -47,6 +56,6 @@ class App {
      * To mitigate twitter rate limits.
      */
     static void sleep() throws InterruptedException {
-        TimeUnit.MINUTES.sleep(new Random().nextInt(15) + 5);
+        TimeUnit.MINUTES.sleep(new Random().nextInt(20) + 5);
     }
 }
