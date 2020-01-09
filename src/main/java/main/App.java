@@ -62,7 +62,7 @@ class App {
      * To mitigate twitter rate limits.
      */
     static void sleep() throws InterruptedException {
-        TimeUnit.MINUTES.sleep(new Random().nextInt(20) + 5);
+        TimeUnit.MINUTES.sleep(new Random().nextInt(20) + 8);
     }
 
     static void sleep(TwitterException exception) throws InterruptedException {
