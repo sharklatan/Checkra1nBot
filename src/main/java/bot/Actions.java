@@ -52,7 +52,9 @@ public class Actions {
                         &&
                     !isSubset(Data.blockedWords.toArray(), status.getText().toLowerCase().split(" "))
                         &&
-                    status.getFavoriteCount() >= 5 && !status.isRetweetedByMe()
+                    status.getFavoriteCount() >= 5
+                        &&
+                    !status.isRetweetedByMe()
                 ) {
                     logToFile(
                         "By @" + status.getUser().getScreenName()
