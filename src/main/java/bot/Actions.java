@@ -46,6 +46,7 @@ public class Actions {
                     status.getFavoriteCount() >= 5 &&
                     !status.isRetweetedByMe()
                 ) {
+                    System.out.println("Tweet text: " + status.getText());
                     statusList.add(status);
                 }
             }
