@@ -13,6 +13,7 @@ import twitter4j.TwitterException;
 
 /**
  * The main class of the twitter bot.
+ * Github: https://github.com/raphtlw/Checkra1nBot
  */
 class App {
     public static void main(String[] args) throws TwitterException, InterruptedException, IOException {
