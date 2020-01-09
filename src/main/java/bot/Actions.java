@@ -1,9 +1,9 @@
 package bot;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -56,11 +56,11 @@ public class Actions {
                         &&
                     !status.isRetweetedByMe()
                 ) {
-                    logToFile(
-                        "By @" + status.getUser().getScreenName()
+                    consoleLog(
+                        "\nBy @" + status.getUser().getScreenName()
                         + "\n" +
                         status.getText()
-                        , "added_to_status_list.txt");
+                    );
                     statusList.add(status);
                 }
             }
@@ -99,11 +99,11 @@ public class Actions {
     }
 
     /**
-     * Logger for file logging.
+     * Modified println method for logging.
      */
-    public static void logToFile(String in, String fileName) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true));
-        writer.append("\n\n" + in);
-        writer.close();
+    public static void consoleLog(String out) {
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd HH:mm:ss");
+        Date date = new Date();
+        System.out.println(format.format(date) + " - " + out);
     }
 }
