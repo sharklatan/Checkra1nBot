@@ -1,5 +1,6 @@
 package main;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -14,7 +15,7 @@ import twitter4j.TwitterException;
  * The main class of the twitter bot.
  */
 class App {
-    public static void main(String[] args) throws TwitterException, InterruptedException {
+    public static void main(String[] args) throws TwitterException, InterruptedException, IOException {
         while (true) {
             try {
                 Actions twitterActions = new Actions();
@@ -26,10 +27,12 @@ class App {
             } catch (TwitterException exception) {
                 if (exception.getErrorCode() == 136) {
                     consoleLog("Blocked from retweeting user's tweets");
+                    sleep(2);
                     continue;
                 }
                 if (exception.getErrorCode() == 327) {
                     consoleLog("Already retweeted");
+                    sleep(2);
                     continue;
                 }
                 if (exception.getErrorCode() == 88) {
@@ -62,10 +65,14 @@ class App {
      * To mitigate twitter rate limits.
      */
     static void sleep() throws InterruptedException {
-        TimeUnit.MINUTES.sleep(new Random().nextInt(20) + 8);
+        TimeUnit.MINUTES.sleep(new Random().nextInt(30) + 10);
     }
 
     static void sleep(TwitterException exception) throws InterruptedException {
         TimeUnit.MINUTES.sleep(exception.getRateLimitStatus().getSecondsUntilReset());
+    }
+
+    static void sleep(int minutes) throws InterruptedException {
+        TimeUnit.MINUTES.sleep(minutes);
     }
 }

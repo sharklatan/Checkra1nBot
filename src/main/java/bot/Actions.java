@@ -1,5 +1,10 @@
 package bot;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -17,12 +22,14 @@ import twitter4j.TwitterFactory;
 public class Actions {
 
     /**
-     * Searches for tweets via a search key passed into the method.
-     * Checks the quality of tweets too and makes sure the tweet meets a certain requirement.
+     * Searches for tweets via a search key passed into the method. Checks the
+     * quality of tweets too and makes sure the tweet meets a certain requirement.
+     * 
      * @return Status object containing the search result
      * @throws TwitterException
+     * @throws IOException
      */
-    public Status search(String searchKey) throws TwitterException {
+    public Status search(String searchKey) throws TwitterException, IOException {
         Twitter twitter = TwitterFactory.getSingleton();
         Query query = new Query(searchKey).lang("en").count(100);
         QueryResult result = twitter.search(query);
@@ -32,13 +39,13 @@ public class Actions {
         class TweetProcessor {
             List<Status> statusList = new ArrayList<>();
 
-            TweetProcessor(List<Status> tList) {
+            TweetProcessor(List<Status> tList) throws IOException {
                 for (Status t : tList) {
                     processTweet(t);
                 }
             }
-            
-            void processTweet(Status status) {
+
+            void processTweet(Status status) throws IOException {
                 // FIXME: Fix bug where blocked words array gets ignored
                 // FIXME: Fix bug with already retweeted tweets
                 // Status must fulfil the following requirements
@@ -47,11 +54,13 @@ public class Actions {
                         &&
                     !isSubset(Data.blockedWords.toArray(), status.getText().toLowerCase().split(" "))
                         &&
-                    status.getFavoriteCount() >= 5
-                        &&
-                    !status.isRetweetedByMe()
+                    status.getFavoriteCount() >= 5 && !status.isRetweetedByMe()
                 ) {
-                    System.out.println("Tweet text: " + status.getText());
+                    logToFile(
+                        "By @" + status.getUser().getScreenName()
+                        + "\n" +
+                        status.getText()
+                        , "added_to_status_list.txt");
                     statusList.add(status);
                 }
             }
@@ -79,6 +88,7 @@ public class Actions {
 
     /**
      * Retweets a Status object passed into the method.
+     * 
      * @return Retweeted status
      */
     public Status retweetStatus(Status status) throws TwitterException {
@@ -86,5 +96,14 @@ public class Actions {
         long statusId = status.getId();
         Status retweetedStatus = twitter.retweetStatus(statusId);
         return retweetedStatus;
+    }
+
+    /**
+     * Logger for file logging.
+     */
+    public static void logToFile(String in, String fileName) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true));
+        writer.append("\n\n" + in);
+        writer.close();
     }
 }
