@@ -28,10 +28,6 @@ class App {
                     consoleLog("Blocked from retweeting user's tweets");
                     continue;
                 }
-                if (exception.getErrorCode() == 327) {
-                    consoleLog("Already retweeted");
-                    continue;
-                }
                 if (exception.getErrorCode() == 88) {
                     consoleLog("Rate limit exceeded");
                     consoleLog("Time until rate limit is over: " + exception.getRateLimitStatus().getSecondsUntilReset());

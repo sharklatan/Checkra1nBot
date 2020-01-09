@@ -43,7 +43,8 @@ public class Actions {
                 if (
                     !Data.blockedAccounts.contains(status.getUser().getScreenName().toLowerCase()) &&
                     !Data.blockedWords.contains(status.getText().toLowerCase()) &&
-                    status.getFavoriteCount() >= 5
+                    status.getFavoriteCount() >= 5 &&
+                    !status.isRetweetedByMe()
                 ) {
                     statusList.add(status);
                 }
