@@ -32,6 +32,9 @@ class App {
                     consoleLog("Already retweeted");
                     continue;
                 }
+                if (exception.getErrorCode() == 88) {
+                    consoleLog("Rate limit exceeded");
+                }
                 else {
                     consoleLog(exception.toString());
                 }
