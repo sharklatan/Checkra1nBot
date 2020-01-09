@@ -39,11 +39,15 @@ public class Actions {
             }
             
             void processTweet(Status status) {
+                // TODO: Fix bug where blocked words array gets ignored
                 // Status must fulfil the following requirements
                 if (
-                    !Data.blockedAccounts.contains(status.getUser().getScreenName().toLowerCase()) &&
-                    !Data.blockedWords.contains(status.getText().toLowerCase()) &&
-                    status.getFavoriteCount() >= 5 &&
+                    !Data.blockedAccounts.contains(status.getUser().getScreenName().toLowerCase())
+                        &&
+                    !isSubset(Data.blockedWords.toArray(), status.getText().toLowerCase().split(" "))
+                        &&
+                    status.getFavoriteCount() >= 5
+                        &&
                     !status.isRetweetedByMe()
                 ) {
                     System.out.println("Tweet text: " + status.getText());
@@ -53,6 +57,17 @@ public class Actions {
 
             Status getTweet() {
                 return (statusList.get(new Random().nextInt(statusList.size())));
+            }
+
+            boolean isSubset(Object[] listA, Object[] listB) {
+                for (int i = 0; i < listA.length; i++) {
+                    for (int j = 0; j < listB.length; j++) {
+                        if (listA[i] == listB[j]) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
             }
         }
 
