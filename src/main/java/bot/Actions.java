@@ -39,7 +39,8 @@ public class Actions {
             }
             
             void processTweet(Status status) {
-                // TODO: Fix bug where blocked words array gets ignored
+                // FIXME: Fix bug where blocked words array gets ignored
+                // FIXME: Fix bug with already retweeted tweets
                 // Status must fulfil the following requirements
                 if (
                     !Data.blockedAccounts.contains(status.getUser().getScreenName().toLowerCase())
