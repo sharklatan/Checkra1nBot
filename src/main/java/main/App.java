@@ -34,6 +34,9 @@ class App {
                 }
                 if (exception.getErrorCode() == 88) {
                     consoleLog("Rate limit exceeded");
+                    consoleLog("Time until rate limit is over: " + exception.getRateLimitStatus().getSecondsUntilReset());
+                    sleep(exception);
+                    continue;
                 }
                 else {
                     consoleLog(exception.toString());
@@ -60,5 +63,9 @@ class App {
      */
     static void sleep() throws InterruptedException {
         TimeUnit.MINUTES.sleep(new Random().nextInt(20) + 5);
+    }
+
+    static void sleep(TwitterException exception) throws InterruptedException {
+        TimeUnit.MINUTES.sleep(exception.getRateLimitStatus().getSecondsUntilReset());
     }
 }

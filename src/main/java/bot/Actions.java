@@ -6,7 +6,6 @@ import java.util.Random;
 
 import twitter4j.Query;
 import twitter4j.QueryResult;
-import twitter4j.RateLimitStatus;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -69,12 +68,5 @@ public class Actions {
         long statusId = status.getId();
         Status retweetedStatus = twitter.retweetStatus(statusId);
         return retweetedStatus;
-    }
-
-    public int getRateLimitStatus(String endpoint) throws TwitterException {
-        Twitter twitter = TwitterFactory.getSingleton();
-        String family = endpoint.split("/", 3)[1];
-        RateLimitStatus status = twitter.getRateLimitStatus(family).get(endpoint);
-        return status.getResetTimeInSeconds();
     }
 }
