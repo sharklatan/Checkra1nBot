@@ -54,7 +54,7 @@ public class Actions {
                 }
 
                 if (
-                    !Data.blockedAccounts.contains(status.getUser().getScreenName())
+                    !Data.blockedAccounts.contains(status.getUser().getScreenName().toLowerCase())
                         &&
                     !isSubset(Data.blockedWords, statusSplit)
                         &&
