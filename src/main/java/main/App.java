@@ -26,12 +26,12 @@ class App {
             } catch (TwitterException exception) {
                 if (exception.getErrorCode() == 136) {
                     Actions.consoleLog("Blocked from retweeting user's tweets");
-                    sleep(2);
+                    sleep(1);
                     continue;
                 }
                 if (exception.getErrorCode() == 327) {
                     Actions.consoleLog("Already retweeted");
-                    sleep(2);
+                    sleep(1);
                     continue;
                 }
                 if (exception.getErrorCode() == 88) {

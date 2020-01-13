@@ -3,6 +3,7 @@ package bot;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -45,16 +46,19 @@ public class Actions {
 
             void processTweet(Status status) throws IOException {
                 // FIXME: Fix bug where blocked words array gets ignored
-                // FIXME: Fix bug with already retweeted tweets
                 // Status must fulfil the following requirements
+                String[] statusSplitList = status.getText().toLowerCase().split(" ");
+                List<String> statusSplit = new ArrayList<>();
+                for (String i : statusSplitList) {
+                    statusSplit.add(i);
+                }
+
                 if (
-                    !Data.blockedAccounts.contains(status.getUser().getScreenName().toLowerCase())
+                    !Data.blockedAccounts.contains(status.getUser().getScreenName())
                         &&
-                    !isSubset(Data.blockedWords.toArray(), status.getText().toLowerCase().split(" "))
+                    !isSubset(Data.blockedWords, statusSplit)
                         &&
                     status.getFavoriteCount() >= 5
-                        &&
-                    !status.isRetweetedByMe()
                 ) {
                     consoleLog(
                         "\nBy @" + status.getUser().getScreenName()
@@ -69,15 +73,13 @@ public class Actions {
                 return (statusList.get(new Random().nextInt(statusList.size())));
             }
 
-            boolean isSubset(Object[] listA, Object[] listB) {
-                for (int i = 0; i < listA.length; i++) {
-                    for (int j = 0; j < listB.length; j++) {
-                        if (listA[i] == listB[j]) {
-                            return true;
-                        }
-                    }
+            boolean isSubset(List<String> parentList, List<String> childList) {
+                int index = Collections.indexOfSubList(parentList, childList);
+                if (index >= 0) {
+                    return true;
+                } else {
+                    return false;
                 }
-                return false;
             }
         }
 
