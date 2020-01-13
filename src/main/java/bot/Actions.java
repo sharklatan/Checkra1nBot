@@ -45,7 +45,6 @@ public class Actions {
             }
 
             void processTweet(Status status) throws IOException {
-                // FIXME: Fix bug where blocked words array gets ignored
                 // Status must fulfil the following requirements
                 String[] statusSplitList = status.getText().toLowerCase().split(" ");
                 List<String> statusSplit = new ArrayList<>();
