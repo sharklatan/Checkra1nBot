@@ -81,7 +81,7 @@ public class Actions {
                     !retweetedByMe(status)
                 ) {
                     statusList.add(status);
-                    
+                    logTweet(status);
                 }
             }
 
