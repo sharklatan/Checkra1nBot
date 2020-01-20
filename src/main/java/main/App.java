@@ -20,9 +20,8 @@ class App {
                 Actions twitterActions = new Actions();
                 Status status = twitterActions
                         .search(Data.searchKeys.get(new Random().nextInt(Data.searchKeys.size())));
-                Status retweetedStatus = twitterActions.retweetStatus(status);
-                Actions.consoleLog(String.format("Retweeted:\n\n%s\n\nby @%s", retweetedStatus.getText(),
-                        status.getUser().getScreenName()));
+                twitterActions.retweetStatus(status);
+                Actions.consoleLog("Retweeted: " + urlGenerator(status));
             } catch (TwitterException exception) {
                 if (exception.getErrorCode() == 136) {
                     Actions.consoleLog("Blocked from retweeting user's tweets");
@@ -49,6 +48,12 @@ class App {
             }
             sleep();
         }
+    }
+
+    static String urlGenerator(Status tweet) {
+        String userName = tweet.getUser().getScreenName();
+        Long tweetId = tweet.getId();
+        return String.format("https://twitter.com/%s/status/%d", userName, tweetId);
     }
 
     /**

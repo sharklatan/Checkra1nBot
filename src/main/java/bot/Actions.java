@@ -1,5 +1,7 @@
 package bot;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -53,6 +55,14 @@ public class Actions {
                 return jsonObject.getBoolean("retweeted");
             }
 
+            void logTweet(Status status) throws IOException {
+                String json = TwitterObjectFactory.getRawJSON(status);
+                File file = new File("tweets.log");
+                FileWriter fileWriter = new FileWriter(file, true);
+                fileWriter.write(json + "\n");
+                fileWriter.close();
+            }
+
             void processTweet(Status status) throws IOException {
                 // Status must fulfil the following requirements
                 String[] statusSplitList = status.getText().toLowerCase().split(" ");
@@ -70,12 +80,8 @@ public class Actions {
                     &&
                     !retweetedByMe(status)
                 ) {
-                    consoleLog(
-                        "\nBy @" + status.getUser().getScreenName()
-                        + "\n" +
-                        status.getText()
-                    );
                     statusList.add(status);
+                    
                 }
             }
 
