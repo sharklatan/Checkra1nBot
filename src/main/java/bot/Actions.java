@@ -57,9 +57,10 @@ public class Actions {
 
             void logTweet(Status status) throws IOException {
                 String json = TwitterObjectFactory.getRawJSON(status);
+                JSONObject jsonObject = new JSONObject(json);
                 File file = new File("tweets.log");
                 FileWriter fileWriter = new FileWriter(file, true);
-                fileWriter.write(json + "\n");
+                fileWriter.write(jsonObject.toString(4) + "\n");
                 fileWriter.close();
             }
 
