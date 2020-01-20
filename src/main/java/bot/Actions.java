@@ -8,12 +8,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import org.json.JSONObject;
+
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import twitter4j.TwitterObjectFactory;
 
 /**
  * Contains the methods the bot can use to perform tasks.
@@ -44,6 +47,12 @@ public class Actions {
                 }
             }
 
+            boolean retweetedByMe(Status status) {
+                String json = TwitterObjectFactory.getRawJSON(status);
+                JSONObject jsonObject = new JSONObject(json);
+                return jsonObject.getBoolean("retweeted");
+            }
+
             void processTweet(Status status) throws IOException {
                 // Status must fulfil the following requirements
                 String[] statusSplitList = status.getText().toLowerCase().split(" ");
@@ -54,10 +63,12 @@ public class Actions {
 
                 if (
                     !Data.blockedAccounts.contains(status.getUser().getScreenName().toLowerCase())
-                        &&
+                    &&
                     !isSubset(Data.blockedWords, statusSplit)
-                        &&
+                    &&
                     status.getFavoriteCount() >= 5
+                    &&
+                    !retweetedByMe(status)
                 ) {
                     consoleLog(
                         "\nBy @" + status.getUser().getScreenName()
