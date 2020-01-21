@@ -1,6 +1,8 @@
 package bot;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -24,6 +26,11 @@ import twitter4j.TwitterObjectFactory;
  * Contains the methods the bot can use to perform tasks.
  */
 public class Actions {
+
+    // Global variables
+    private static String blockedWordsFileName = "blocked-words.txt";
+    private static String blockedAccountsFileName = "blocked-accounts.txt";
+    private static String searchKeysFileName = "search-keys.txt";
 
     /**
      * Searches for tweets via a search key passed into the method. Checks the
@@ -60,7 +67,7 @@ public class Actions {
                 JSONObject jsonObject = new JSONObject(json);
                 File file = new File("tweets.log");
                 FileWriter fileWriter = new FileWriter(file, true);
-                fileWriter.write(jsonObject.toString(4) + "\n");
+                fileWriter.write("Tweet JSON:\n" + jsonObject.toString(4) + "\n\n");
                 fileWriter.close();
             }
 
@@ -73,9 +80,9 @@ public class Actions {
                 }
 
                 if (
-                    !Data.blockedAccounts.contains(status.getUser().getScreenName().toLowerCase())
+                    !getBlockedAccounts().contains(status.getUser().getScreenName().toLowerCase())
                     &&
-                    !isSubset(Data.blockedWords, statusSplit)
+                    !isSubset(getBlockedWords(), statusSplit)
                     &&
                     status.getFavoriteCount() >= 5
                     &&
@@ -103,6 +110,99 @@ public class Actions {
         TweetProcessor tweetProcessor = new TweetProcessor(tweetList);
 
         return tweetProcessor.getTweet();
+    }
+
+    // Blocked Words
+
+    /**
+     * Adds a word to the file containing the blocked words.
+     * 
+     * @throws IOException
+     */
+    public static void addBlockedWord(String word) throws IOException {
+        File file = new File(blockedWordsFileName);
+        FileWriter fileWriter = new FileWriter(file, true);
+        fileWriter.write(word + "\n");
+        fileWriter.close();
+    }
+
+    /**
+     * Returns an array of all the blocked words.
+     * 
+     * @throws IOException
+     */
+    public static List<String> getBlockedWords() throws IOException {
+        File file = new File(blockedWordsFileName);
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        List<String> blockedWords = new ArrayList<>();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            blockedWords.add(line);
+        }
+        reader.close();
+        return blockedWords;
+    }
+
+    // Blocked Accounts
+
+    /**
+     * Adds a word to the file containing the blocked accounts.
+     * 
+     * @throws IOException
+     */
+    public static void addBlockedAccount(String word) throws IOException {
+        File file = new File(blockedAccountsFileName);
+        FileWriter fileWriter = new FileWriter(file, true);
+        fileWriter.write(word + "\n");
+        fileWriter.close();
+    }
+
+    /**
+     * Returns an array of all the blocked accounts.
+     * 
+     * @throws IOException
+     */
+    public static List<String> getBlockedAccounts() throws IOException {
+        File file = new File(blockedAccountsFileName);
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        List<String> blockedWords = new ArrayList<>();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            blockedWords.add(line);
+        }
+        reader.close();
+        return blockedWords;
+    }
+
+    // Search Keys
+
+    /**
+     * Adds a word to the file containing the search keys.
+     * 
+     * @throws IOException
+     */
+    public static void addSearchKey(String word) throws IOException {
+        File file = new File(searchKeysFileName);
+        FileWriter fileWriter = new FileWriter(file, true);
+        fileWriter.write(word + "\n");
+        fileWriter.close();
+    }
+
+    /**
+     * Returns an array of all the search keys.
+     * 
+     * @throws IOException
+     */
+    public static List<String> getSearchKeys() throws IOException {
+        File file = new File(searchKeysFileName);
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        List<String> blockedWords = new ArrayList<>();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            blockedWords.add(line);
+        }
+        reader.close();
+        return blockedWords;
     }
 
     /**

@@ -5,7 +5,6 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import bot.Actions;
-import bot.Data;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 
@@ -19,7 +18,7 @@ class App {
             try {
                 Actions twitterActions = new Actions();
                 Status status = twitterActions
-                        .search(Data.searchKeys.get(new Random().nextInt(Data.searchKeys.size())));
+                        .search(Actions.getSearchKeys().get(new Random().nextInt(Actions.getSearchKeys().size())));
                 twitterActions.retweetStatus(status);
                 Actions.consoleLog("Retweeted: " + urlGenerator(status));
             } catch (TwitterException exception) {
