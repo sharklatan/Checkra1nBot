@@ -72,13 +72,13 @@ public class Actions {
             }
 
             void processTweet(Status status) throws IOException {
-                // Status must fulfil the following requirements
                 String[] statusSplitList = status.getText().toLowerCase().split(" ");
                 List<String> statusSplit = new ArrayList<>();
                 for (String i : statusSplitList) {
                     statusSplit.add(i);
                 }
 
+                // Status must fulfil the following requirements
                 if (
                     !getBlockedAccounts().contains(status.getUser().getScreenName().toLowerCase())
                     &&
@@ -165,13 +165,13 @@ public class Actions {
     public static List<String> getBlockedAccounts() throws IOException {
         File file = new File(blockedAccountsFileName);
         BufferedReader reader = new BufferedReader(new FileReader(file));
-        List<String> blockedWords = new ArrayList<>();
+        List<String> blockedAccounts = new ArrayList<>();
         String line;
         while ((line = reader.readLine()) != null) {
-            blockedWords.add(line);
+            blockedAccounts.add(line);
         }
         reader.close();
-        return blockedWords;
+        return blockedAccounts;
     }
 
     // Search Keys
@@ -196,13 +196,13 @@ public class Actions {
     public static List<String> getSearchKeys() throws IOException {
         File file = new File(searchKeysFileName);
         BufferedReader reader = new BufferedReader(new FileReader(file));
-        List<String> blockedWords = new ArrayList<>();
+        List<String> searchKeys = new ArrayList<>();
         String line;
         while ((line = reader.readLine()) != null) {
-            blockedWords.add(line);
+            searchKeys.add(line);
         }
         reader.close();
-        return blockedWords;
+        return searchKeys;
     }
 
     /**
