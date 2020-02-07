@@ -17,7 +17,6 @@ import org.json.JSONObject;
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Status;
-import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -32,7 +31,6 @@ public class Actions {
     private static String blockedWordsFileName = "blocked-words.txt";
     private static String blockedAccountsFileName = "blocked-accounts.txt";
     private static String searchKeysFileName = "search-keys.txt";
-    private static String commentsFileName = "comments.txt";
 
     /**
      * Searches for tweets via a search key passed into the method. Checks the
@@ -112,44 +110,6 @@ public class Actions {
         TweetProcessor tweetProcessor = new TweetProcessor(tweetList);
 
         return tweetProcessor.getTweet();
-    }
-
-    public void commentOnTweet(Status status, String comment) throws TwitterException {
-        Twitter twitter = TwitterFactory.getSingleton();
-        StatusUpdate statusUpdate = new StatusUpdate("@" + status.getUser().getScreenName() + " " + comment);
-        statusUpdate.setInReplyToStatusId(status.getId());
-        twitter.updateStatus(statusUpdate);
-    }
-
-    // Comments
-
-    /**
-     * Adds a word to the file containing the comments.
-     * 
-     * @throws IOException
-     */
-    public static void addComment(String comment) throws IOException {
-        File file = new File(commentsFileName);
-        FileWriter fileWriter = new FileWriter(file, true);
-        fileWriter.write(comment + "\n");
-        fileWriter.close();
-    }
-
-    /**
-     * Returns an array of all the comments.
-     * 
-     * @throws IOException
-     */
-    public static List<String> getComments() throws IOException {
-        File file = new File(commentsFileName);
-        BufferedReader reader = new BufferedReader(new FileReader(file));
-        List<String> comments = new ArrayList<>();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            comments.add(line);
-        }
-        reader.close();
-        return comments;
     }
 
     // Blocked Words

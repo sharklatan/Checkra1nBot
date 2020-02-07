@@ -1,7 +1,6 @@
 package main;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -20,14 +19,9 @@ class App {
                 Actions twitterActions = new Actions();
                 Status status = twitterActions
                         .search(Actions.getSearchKeys().get(new Random().nextInt(Actions.getSearchKeys().size())));
-                
+
                 twitterActions.retweetStatus(status);
                 Actions.consoleLog("Retweeted: " + urlGenerator(status));
-
-                List<String> commentList = Actions.getComments();
-                int commentIndex = new Random().nextInt(commentList.size());
-                twitterActions.commentOnTweet(status, commentList.get(commentIndex));
-                Actions.consoleLog("Commented on tweet with: " + commentList.get(commentIndex));
             } catch (TwitterException exception) {
                 if (exception.getErrorCode() == 136) {
                     Actions.consoleLog("Blocked from retweeting user's tweets");
