@@ -1,5 +1,7 @@
 package bot;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,7 @@ public class Scrapers {
                 urls.add(url);
             }
         }
+        logUrls(urls);
         return urls;
     }
 
@@ -58,6 +61,19 @@ public class Scrapers {
                 urls.add(url);
             }
         }
+        logUrls(urls);
         return urls;
+    }
+
+    /**
+     * Logger method for outputting the list of URLs into a log file.
+     * 
+     * @throws IOException
+     */
+    private static void logUrls(List<String> urls) throws IOException {
+        File file = new File("urls.log");
+        FileWriter fileWriter = new FileWriter(file, true);
+        fileWriter.write(urls.toString() + "\n");
+        fileWriter.close();
     }
 }
