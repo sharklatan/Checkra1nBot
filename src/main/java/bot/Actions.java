@@ -112,6 +112,16 @@ public class Actions {
         return tweetProcessor.getTweet();
     }
 
+    /**
+     * Posts a tweet.
+     * 
+     * @throws TwitterException
+     */
+    public Status postTweet(String status) throws TwitterException {
+        Twitter twitter = TwitterFactory.getSingleton();
+        return twitter.updateStatus(status);
+    }
+
     // Blocked Words
 
     /**
