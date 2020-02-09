@@ -1,10 +1,12 @@
 package main;
 
+import java.io.IOException;
+
+import bot.Scraper;
+
 class AppTest {
-    public static void main(String[] args) {
-        Thread thread1 = new Thread(new ThreadTest());
-        Thread thread2 = new Thread(new ThreadTest());
-        thread1.start();
-        thread2.start();
+    public static void main(String[] args) throws IOException {
+        Scraper scraper = new Scraper();
+        for (int i = 0; i < 10; i++) scraper.scrape();
     }
 }

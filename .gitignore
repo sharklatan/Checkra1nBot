@@ -10,3 +10,4 @@
 .classpath
 target/
 Checkra1nBot/
+*.log
