@@ -4,7 +4,7 @@ echo "----------------------"
 
 $jar_version = Read-Host -Prompt "`nJAR Version"
 
-mvn package
+mvn clean package
 
 $output_dir = '.\Checkra1nBot'
 
